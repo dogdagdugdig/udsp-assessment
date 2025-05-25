@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="th">
 <head>
@@ -57,6 +58,7 @@
             margin-top: 30px;
             margin-bottom: 25px;
             font-size: 1.5em;
+            /* เพิ่มบรรทัดนี้ เพื่อจัดข้อความให้อยู่กึ่งกลาง */
             text-align: center;
         }
 
@@ -87,20 +89,6 @@
         .form-section.active {
             display: block; /* Show active section */
         }
-
-        /* NEW: Styles for arranging form groups in a row */
-        .form-row {
-            display: flex;
-            gap: 20px; /* Space between columns */
-            margin-bottom: 20px; /* Space below the row */
-        }
-
-        .form-row .form-group {
-            flex: 1; /* Each form-group takes equal space */
-            margin-bottom: 0; /* Remove default margin-bottom from form-group when in a row */
-        }
-        /* END NEW */
-
 
         .form-group {
             margin-bottom: 20px;
@@ -259,10 +247,6 @@
             h2 {
                 font-size: 1.2em;
             }
-            .form-row { /* NEW: Make form-row stack on small screens */
-                flex-direction: column;
-                gap: 0; /* Remove gap when stacked */
-            }
             .button-group {
                 flex-direction: column;
             }
@@ -330,17 +314,15 @@
         <form id="assessmentForm">
             <div id="section1" class="form-section active">
                 <h2>ตอนที่ 1: ข้อมูลของครูผู้สอน</h2>
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="teacherName">ชื่อ:</label>
-                        <input type="text" id="teacherName" name="ชื่อ" required>
-                        <div class="error-message" id="errorTeacherName">กรุณากรอกชื่อ</div>
-                    </div>
-                    <div class="form-group">
-                        <label for="teacherSurname">สกุล:</label>
-                        <input type="text" id="teacherSurname" name="สกุล" required>
-                        <div class="error-message" id="errorTeacherSurname">กรุณากรอกสกุล</div>
-                    </div>
+                <div class="form-group">
+                    <label for="teacherName">ชื่อ:</label>
+                    <input type="text" id="teacherName" name="ชื่อ" required>
+                    <div class="error-message" id="errorTeacherName">กรุณากรอกชื่อ</div>
+                </div>
+                <div class="form-group">
+                    <label for="teacherSurname">สกุล:</label>
+                    <input type="text" id="teacherSurname" name="สกุล" required>
+                    <div class="error-message" id="errorTeacherSurname">กรุณากรอกสกุล</div>
                 </div>
                 <div class="form-group">
                     <label for="position">ตำแหน่ง:</label>
@@ -401,18 +383,15 @@
                     </select>
                     <div class="error-message" id="errorClassroom">กรุณาเลือกห้องเรียน/หน่วยบริการ</div>
                 </div>
-
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="numStudents">จำนวนนักเรียนที่รับผิดชอบ (คน):</label>
-                        <input type="number" id="numStudents" name="จำนวนนักเรียนที่รับผิดชอบ" min="0" required>
-                        <div class="error-message" id="errorNumStudents">กรุณากรอกจำนวนนักเรียน (ตัวเลขเท่านั้น)</div>
-                    </div>
-                    <div class="form-group">
-                        <label for="numIEP">จำนวนแผน IEP (ฉบับ):</label>
-                        <input type="number" id="numIEP" name="จำนวนแผน IEP" min="0" required>
-                        <div class="error-message" id="errorNumIEP">กรุณากรอกจำนวนแผน IEP (ตัวเลขเท่านั้น)</div>
-                    </div>
+                <div class="form-group">
+                    <label for="numStudents">จำนวนนักเรียนที่รับผิดชอบ (คน):</label>
+                    <input type="number" id="numStudents" name="จำนวนนักเรียนที่รับผิดชอบ" min="0" required>
+                    <div class="error-message" id="errorNumStudents">กรุณากรอกจำนวนนักเรียน (ตัวเลขเท่านั้น)</div>
+                </div>
+                <div class="form-group">
+                    <label for="numIEP">จำนวนแผน IEP (ฉบับ):</label>
+                    <input type="number" id="numIEP" name="จำนวนแผน IEP" min="0" required>
+                    <div class="error-message" id="errorNumIEP">กรุณากรอกจำนวนแผน IEP (ตัวเลขเท่านั้น)</div>
                 </div>
                 <div class="button-group">
                     <button type="button" class="primary" onclick="nextSection(1)">ต่อไป</button>
