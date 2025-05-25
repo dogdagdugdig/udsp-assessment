@@ -1,0 +1,785 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>แบบประเมินรายบุคคล มาตรฐานที่ 3 - ศูนย์การศึกษาพิเศษ จ.อุดรธานี</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-blue: #2196F3; /* Bright Blue */
+            --light-blue: #BBDEFB;  /* Light Blue */
+            --white: #FFFFFF;
+            --light-gray: #F0F2F5;
+            --dark-gray: #333;
+            --text-color: #444;
+            --border-color: #ddd;
+        }
+
+        body {
+            font-family: 'Sarabun', sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: var(--light-gray);
+            color: var(--text-color);
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            min-height: 100vh;
+            box-sizing: border-box;
+        }
+
+        .container {
+            background-color: var(--white);
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            max-width: 900px;
+            width: 100%;
+            box-sizing: border-box;
+            overflow: hidden;
+        }
+
+        h1 {
+            color: var(--primary-blue);
+            text-align: center;
+            margin-bottom: 25px;
+            font-size: 1.8em;
+            font-weight: 700;
+        }
+
+        h2 {
+            color: var(--primary-blue);
+            border-bottom: 2px solid var(--light-blue);
+            padding-bottom: 10px;
+            margin-top: 30px;
+            margin-bottom: 25px;
+            font-size: 1.5em;
+            text-align: center;
+        }
+
+        .progress-container {
+            width: 100%;
+            background-color: var(--border-color);
+            border-radius: 10px;
+            margin-bottom: 30px;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            width: 0%;
+            height: 25px;
+            background-color: var(--primary-blue);
+            text-align: center;
+            line-height: 25px;
+            color: var(--white);
+            border-radius: 10px;
+            transition: width 0.4s ease-in-out;
+            font-weight: 600;
+        }
+
+        .form-section {
+            display: none; /* Hidden by default */
+        }
+
+        .form-section.active {
+            display: block; /* Show active section */
+        }
+
+        /* NEW: Styles for arranging form groups in a row */
+        .form-row {
+            display: flex;
+            gap: 20px; /* Space between columns */
+            margin-bottom: 20px; /* Space below the row */
+        }
+
+        .form-row .form-group {
+            flex: 1; /* Each form-group takes equal space */
+            margin-bottom: 0; /* Remove default margin-bottom from form-group when in a row */
+        }
+        /* END NEW */
+
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--dark-gray);
+        }
+
+        input[type="text"],
+        input[type="number"],
+        select {
+            width: calc(100% - 22px); /* Account for padding and border */
+            padding: 12px 10px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            font-size: 1em;
+            box-sizing: border-box;
+            transition: border-color 0.3s;
+        }
+
+        input[type="text"]:focus,
+        input[type="number"]:focus,
+        select:focus {
+            border-color: var(--primary-blue);
+            outline: none;
+        }
+
+        .input-inline {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .input-inline input {
+            flex: 1;
+        }
+
+        .input-inline span {
+            font-weight: 500;
+        }
+
+        .button-group {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+            gap: 15px;
+        }
+
+        button {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1em;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            font-weight: 600;
+        }
+
+        button.primary {
+            background-color: var(--primary-blue);
+            color: var(--white);
+        }
+
+        button.primary:hover {
+            background-color: #1976D2; /* Darker blue */
+            transform: translateY(-2px);
+        }
+
+        button.secondary {
+            background-color: var(--light-blue);
+            color: var(--dark-gray);
+        }
+
+        button.secondary:hover {
+            background-color: #90CAF9; /* Slightly darker light blue */
+            transform: translateY(-2px);
+        }
+
+        button:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+
+        .assessment-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        .assessment-table th,
+        .assessment-table td {
+            border: 1px solid var(--border-color);
+            padding: 12px;
+            text-align: left;
+            vertical-align: top;
+        }
+
+        .assessment-table th {
+            background-color: var(--light-blue);
+            color: var(--dark-gray);
+            font-weight: 600;
+            text-align: center;
+        }
+
+        .assessment-table td:first-child {
+            width: 70%;
+            text-align: left;
+        }
+
+        .assessment-table td:nth-child(2),
+        .assessment-table td:nth-child(3) {
+            width: 15%;
+            text-align: center;
+        }
+
+        .assessment-table input[type="radio"] {
+            margin: 0;
+            transform: scale(1.3); /* Larger radio buttons */
+            cursor: pointer;
+        }
+
+        .radio-label {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 30px; /* Ensure consistent height for radio cells */
+        }
+
+        .submission-status {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 1.2em;
+            font-weight: 600;
+            color: var(--primary-blue);
+        }
+
+        .error-message {
+            color: #D32F2F; /* Red for error */
+            font-size: 0.9em;
+            margin-top: 5px;
+            display: none;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+            }
+            h1 {
+                font-size: 1.5em;
+            }
+            h2 {
+                font-size: 1.2em;
+            }
+            .form-row { /* NEW: Make form-row stack on small screens */
+                flex-direction: column;
+                gap: 0; /* Remove gap when stacked */
+            }
+            .button-group {
+                flex-direction: column;
+            }
+            button {
+                width: 100%;
+            }
+            .assessment-table, .assessment-table tbody, .assessment-table tr, .assessment-table td, .assessment-table th {
+                display: block;
+            }
+            .assessment-table thead {
+                display: none;
+            }
+            .assessment-table tr {
+                margin-bottom: 15px;
+                border: 1px solid var(--border-color);
+                border-radius: 8px;
+                overflow: hidden;
+            }
+            .assessment-table td {
+                border: none;
+                position: relative;
+                padding-left: 50%;
+                text-align: right;
+            }
+            .assessment-table td:before {
+                content: attr(data-label);
+                position: absolute;
+                left: 10px;
+                width: calc(50% - 20px);
+                padding-right: 10px;
+                white-space: nowrap;
+                text-align: left;
+                font-weight: 600;
+                color: var(--dark-gray);
+            }
+            .assessment-table td:first-child {
+                background-color: var(--light-gray);
+                padding-left: 10px;
+                text-align: left;
+                font-weight: 700;
+                color: var(--primary-blue);
+            }
+            .assessment-table td:nth-child(2),
+            .assessment-table td:nth-child(3) {
+                text-align: center;
+                padding-left: 50%; /* Adjust padding for radio buttons */
+            }
+            .assessment-table td .radio-label {
+                justify-content: flex-end; /* Align radios to the right */
+                padding-right: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>แบบประเมินรายบุคคล มาตรฐานที่ 3</h1>
+        <h2>กระบวนการจัดการเรียนการสอนที่เน้นผู้เรียนเป็นสำคัญ</h2>
+        <p style="text-align: center; margin-bottom: 20px; font-weight: 500;">ศูนย์การศึกษาพิเศษ ประจำจังหวัดอุดรธานี ปีการศึกษา 2567</p>
+
+        <div class="progress-container">
+            <div class="progress-bar" id="progressBar">0%</div>
+        </div>
+
+        <form id="assessmentForm">
+            <div id="section1" class="form-section active">
+                <h2>ตอนที่ 1: ข้อมูลของครูผู้สอน</h2>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="teacherName">ชื่อ:</label>
+                        <input type="text" id="teacherName" name="ชื่อ" required>
+                        <div class="error-message" id="errorTeacherName">กรุณากรอกชื่อ</div>
+                    </div>
+                    <div class="form-group">
+                        <label for="teacherSurname">สกุล:</label>
+                        <input type="text" id="teacherSurname" name="สกุล" required>
+                        <div class="error-message" id="errorTeacherSurname">กรุณากรอกสกุล</div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="position">ตำแหน่ง:</label>
+                    <select id="position" name="ตำแหน่ง" required>
+                        <option value="">เลือกตำแหน่ง</option>
+                        <option value="ครู">ครู</option>
+                        <option value="ครูผู้ช่วย">ครูผู้ช่วย</option>
+                        <option value="พนักงานราชการ">พนักงานราชการ</option>
+                        <option value="ครูอัตราจ้าง">ครูอัตราจ้าง</option>
+                    </select>
+                    <div class="error-message" id="errorPosition">กรุณาเลือกตำแหน่ง</div>
+                </div>
+                <div class="form-group">
+                    <label for="major">วิชาเอก:</label>
+                    <input type="text" id="major" name="วิชาเอก" required>
+                    <div class="error-message" id="errorMajor">กรุณากรอกวิชาเอก</div>
+                </div>
+                <div class="form-group">
+                    <label for="serviceYears">อายุราชการ/งาน:</label>
+                    <div class="input-inline">
+                        <input type="number" id="serviceYears" name="อายุราชการ_ปี" min="0" required placeholder="ปี"> <span>ปี</span>
+                        <input type="number" id="serviceMonths" name="อายุราชการ_เดือน" min="0" max="11" required placeholder="เดือน"> <span>เดือน</span>
+                    </div>
+                    <div class="error-message" id="errorServiceTime">กรุณากรอกอายุราชการ/งาน (ปีและเดือน)</div>
+                </div>
+                <div class="form-group">
+                    <label for="classroom">สอนประจำห้องเรียน/หน่วยบริการ:</label>
+                    <select id="classroom" name="สอนประจำห้องเรียน/หน่วยบริการ" required>
+                        <option value="">เลือกห้องเรียน/หน่วยบริการ</option>
+                        <option value="ห้องเรียนเบญจมาศ">ห้องเรียนเบญจมาศ</option>
+                        <option value="ห้องเรียนดอกจาน">ห้องเรียนดอกจาน</option>
+                        <option value="ห้องเรียนทานตะวัน">ห้องเรียนทานตะวัน</option>
+                        <option value="ห้องเรียนลีลาวดี">ห้องเรียนลีลาวดี</option>
+                        <option value="ห้องเรียนเฟื่องฟ้า">ห้องเรียนเฟื่องฟ้า</option>
+                        <option value="ห้องเรียนกล้วยไม้">ห้องเรียนกล้วยไม้</option>
+                        <option value="ห้องเรียนดาวเรือง">ห้องเรียนดาวเรือง</option>
+                        <option value="ห้องเรียนดาวกระจาย">ห้องเรียนดาวกระจาย</option>
+                        <option value="ห้องเรียนฝึกทักษะอาชีพ">ห้องเรียนฝึกทักษะอาชีพ</option>
+                        <option value="ศูนย์การเรียนสำหรับเด็กในโรงพยาบาล">ศูนย์การเรียนสำหรับเด็กในโรงพยาบาล</option>
+                        <option value="ห้องเรียนคู่ขนานโรงเรียนชุมชนสามพร้าว">ห้องเรียนคู่ขนานโรงเรียนชุมชนสามพร้าว</option>
+                        <option value="ห้องเรียนคู่ขนานโรงเรียนบ้านหนองบัว">ห้องเรียนคู่ขนานโรงเรียนบ้านหนองบัว</option>
+                        <option value="หน่วยบริการกุดจับ">หน่วยบริการกุดจับ</option>
+                        <option value="หน่วยบริการกุมภวาปี">หน่วยบริการกุมภวาปี</option>
+                        <option value="หน่วยบริการไชยวาน">หน่วยบริการไชยวาน</option>
+                        <option value="หน่วยบริการโนนสะอาด">หน่วยบริการโนนสะอาด</option>
+                        <option value="หน่วยบริการบ้านดุง">หน่วยบริการบ้านดุง</option>
+                        <option value="หน่วยบริการบ้านผือ1">หน่วยบริการบ้านผือ1</option>
+                        <option value="หน่วยบริการบ้านผือ2">หน่วยบริการบ้านผือ2</option>
+                        <option value="หน่วยบริการเพ็ญ1">หน่วยบริการเพ็ญ1</option>
+                        <option value="หน่วยบริการเพ็ญ2">หน่วยบริการเพ็ญ2</option>
+                        <option value="หน่วยบริการพิบูลย์รักษ์">หน่วยบริการพิบูลย์รักษ์</option>
+                        <option value="หน่วยบริการวังสามหมอ">หน่วยบริการวังสามหมอ</option>
+                        <option value="หน่วยบริการสร้างคอม">หน่วยบริการสร้างคอม</option>
+                        <option value="หน่วยบริการหนองวัวซอ">หน่วยบริการหนองวัวซอ</option>
+                        <option value="หน่วยบริการหนองแสง">หน่วยบริการหนองแสง</option>
+                        <option value="หน่วยบริการหนองหาน1">หน่วยบริการหนองหาน1</option>
+                        <option value="หน่วยบริการหนองหาน2">หน่วยบริการหนองหาน2</option>
+                    </select>
+                    <div class="error-message" id="errorClassroom">กรุณาเลือกห้องเรียน/หน่วยบริการ</div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="numStudents">จำนวนนักเรียนที่รับผิดชอบ (คน):</label>
+                        <input type="number" id="numStudents" name="จำนวนนักเรียนที่รับผิดชอบ" min="0" required>
+                        <div class="error-message" id="errorNumStudents">กรุณากรอกจำนวนนักเรียน (ตัวเลขเท่านั้น)</div>
+                    </div>
+                    <div class="form-group">
+                        <label for="numIEP">จำนวนแผน IEP (ฉบับ):</label>
+                        <input type="number" id="numIEP" name="จำนวนแผน IEP" min="0" required>
+                        <div class="error-message" id="errorNumIEP">กรุณากรอกจำนวนแผน IEP (ตัวเลขเท่านั้น)</div>
+                    </div>
+                </div>
+                <div class="button-group">
+                    <button type="button" class="primary" onclick="nextSection(1)">ต่อไป</button>
+                </div>
+            </div>
+
+            <div id="section2" class="form-section">
+                <h2>ตอนที่ 2: แบบการประเมินการจัดการเรียนการสอน</h2>
+                <table class="assessment-table">
+                    <thead>
+                        <tr>
+                            <th>รายการปฏิบัติ</th>
+                            <th>ผลการประเมิน<br>ปฏิบัติ</th>
+                            <th>ผลการประเมิน<br>ไม่ปฏิบัติ</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td colspan="3" style="background-color: var(--light-blue); font-weight: 700; text-align: left;">1. การจัดการเรียนรู้ผ่านกระบวนการคิดและปฏิบัติจริงและสามารถนำไปประยุกต์ใช้ในชีวิตได้</td>
+                        </tr>
+                        <tr>
+                            <td data-label="รายการปฏิบัติ">1.1 ครูมีการประเมินความสามารถพื้นฐาน วิเคราะห์ผู้เรียนรายบุคคล</td>
+                            <td data-label="ปฏิบัติ"><div class="radio-label"><input type="radio" name="q1_1" value="1" required></div></td>
+                            <td data-label="ไม่ปฏิบัติ"><div class="radio-label"><input type="radio" name="q1_1" value="0"></div></td>
+                        </tr>
+                        <tr>
+                            <td data-label="รายการปฏิบัติ">1.2 ครูมีการประเมินความสามารถพื้นฐาน วิเคราะห์ผู้เรียนรายบุคคล และจัดทำแผน IEP/IFSP ให้กับนักเรียนครบทุกคน</td>
+                            <td data-label="ปฏิบัติ"><div class="radio-label"><input type="radio" name="q1_2" value="1" required></div></td>
+                            <td data-label="ไม่ปฏิบัติ"><div class="radio-label"><input type="radio" name="q1_2" value="0"></div></td>
+                        </tr>
+                        <tr>
+                            <td data-label="รายการปฏิบัติ">1.3 ครูมีการประเมินความสามารถพื้นฐาน วิเคราะห์ผู้เรียนรายบุคคล และจัดทำแผน IEP/IFSP ให้กับนักเรียนครบทุกคนได้อย่างถูกต้อง โดยการมีส่วนร่วมของผู้เกี่ยวข้อง</td>
+                            <td data-label="ปฏิบัติ"><div class="radio-label"><input type="radio" name="q1_3" value="1" required></div></td>
+                            <td data-label="ไม่ปฏิบัติ"><div class="radio-label"><input type="radio" name="q1_3" value="0"></div></td>
+                        </tr>
+                        <tr>
+                            <td data-label="รายการปฏิบัติ">1.4 ครูมีการประเมินความสามารถพื้นฐาน วิเคราะห์ผู้เรียนรายบุคคล และจัดทำแผน IEP/IFSP ให้กับนักเรียนครบทุกคนได้อย่างถูกต้อง โดยการมีส่วนร่วมของผู้เกี่ยวข้อง และนำแผนไปใช้ในการจัดการเรียนรู้</td>
+                            <td data-label="ปฏิบัติ"><div class="radio-label"><input type="radio" name="q1_4" value="1" required></div></td>
+                            <td data-label="ไม่ปฏิบัติ"><div class="radio-label"><input type="radio" name="q1_4" value="0"></div></td>
+                        </tr>
+                        <tr>
+                            <td data-label="รายการปฏิบัติ">1.5 ครูมีการประเมินความสามารถพื้นฐาน วิเคราะห์ผู้เรียนรายบุคคล และจัดทำแผน IEP/IFSP ให้กับนักเรียนครบทุกคนได้อย่างถูกต้อง โดยการมีส่วนร่วมของผู้เกี่ยวข้อง นำแผนไปใช้ในการจัดการเรียนรู้และมีการทบทวน ปรับปรุง แผน IEP/IFSP</td>
+                            <td data-label="ปฏิบัติ"><div class="radio-label"><input type="radio" name="q1_5" value="1" required></div></td>
+                            <td data-label="ไม่ปฏิบัติ"><div class="radio-label"><input type="radio" name="q1_5" value="0"></div></td>
+                        </tr>
+
+                        <tr>
+                            <td colspan="3" style="background-color: var(--light-blue); font-weight: 700; text-align: left;">2. ใช้สื่อ เทคโนโลยี สารสนเทศ และแหล่งเรียนรู้ ที่เอื้อต่อการเรียนรู้</td>
+                        </tr>
+                        <tr>
+                            <td data-label="รายการปฏิบัติ">2.1 เลือกใช้สื่อ นวัตกรรมเทคโนโลยีทางการศึกษาและแหล่งเรียนรู้ไปใช้ในการจัดการเรียนรู้เหมาะสมกับผู้เรียน</td>
+                            <td data-label="ปฏิบัติ"><div class="radio-label"><input type="radio" name="q2_1" value="1" required></div></td>
+                            <td data-label="ไม่ปฏิบัติ"><div class="radio-label"><input type="radio" name="q2_1" value="0"></div></td>
+                        </tr>
+                        <tr>
+                            <td data-label="รายการปฏิบัติ">2.2 เลือกใช้สื่อ นวัตกรรมเทคโนโลยีทางการศึกษาและแหล่งเรียนรู้ไปใช้ในการจัดการเรียนรู้เหมาะสมกับผู้เรียนประเมินผลและนำผลการประเมินไปปรับปรุงพัฒนาให้มีคุณภาพสูงขึ้น</td>
+                            <td data-label="ปฏิบัติ"><div class="radio-label"><input type="radio" name="q2_2" value="1" required></div></td>
+                            <td data-label="ไม่ปฏิบัติ"><div class="radio-label"><input type="radio" name="q2_2" value="0"></div></td>
+                        </tr>
+                        <tr>
+                            <td data-label="รายการปฏิบัติ">2.3 สร้างและพัฒนาสื่อ นวัตกรรมเทคโนโลยีทางการศึกษาและแหล่งเรียนรู้ไปใช้ในการจัดการเรียนรู้เหมาะสมกับผู้เรียน ประเมินผลและนำผลการประเมินไปปรับปรุงพัฒนาให้มีคุณภาพสูงขึ้น</td>
+                            <td data-label="ปฏิบัติ"><div class="radio-label"><input type="radio" name="q2_3" value="1" required></div></td>
+                            <td data-label="ไม่ปฏิบัติ"><div class="radio-label"><input type="radio" name="q2_3" value="0"></div></td>
+                        </tr>
+                        <tr>
+                            <td data-label="รายการปฏิบัติ">2.4 สร้างและพัฒนาสื่อ นวัตกรรมเทคโนโลยีทางการศึกษาและแหล่งเรียนรู้ไปใช้ในการจัดการเรียนรู้เหมาะสมกับผู้เรียน ประเมินผลและนำผลการประเมินไปปรับปรุงพัฒนาให้มีคุณภาพสูงขึ้น นำสื่อ นวัตกรรมเทคโนโลยีทางการศึกษาและแหล่งเรียนรู้ไปปรับประยุกต์ใช้กับผู้เรียนที่มีลักษณะความพิการอื่น ๆ</td>
+                            <td data-label="ปฏิบัติ"><div class="radio-label"><input type="radio" name="q2_4" value="1" required></div></td>
+                            <td data-label="ไม่ปฏิบัติ"><div class="radio-label"><input type="radio" name="q2_4" value="0"></div></td>
+                        </tr>
+                        <tr>
+                            <td data-label="รายการปฏิบัติ">2.5 สร้างและพัฒนาสื่อ นวัตกรรมเทคโนโลยีทางการศึกษาและแหล่งเรียนรู้ไปใช้ในการจัดการเรียนรู้เหมาะสมกับผู้เรียน ประเมินผลและนำผลการประเมินไปปรับปรุงพัฒนาให้มีคุณภาพสูงขึ้น นำสื่อ นวัตกรรมเทคโนโลยีทางการศึกษาและแหล่งเรียนรู้ไปปรับประยุกต์ใช้กับผู้เรียนที่มีลักษณะความพิการอื่น ๆ และเป็นแบบอย่างได้</td>
+                            <td data-label="ปฏิบัติ"><div class="radio-label"><input type="radio" name="q2_5" value="1" required></div></td>
+                            <td data-label="ไม่ปฏิบัติ"><div class="radio-label"><input type="radio" name="q2_5" value="0"></div></td>
+                        </tr>
+
+                        <tr>
+                            <td colspan="3" style="background-color: var(--light-blue); font-weight: 700; text-align: left;">3. มีการบริหารจัดการชั้นเรียนเชิงบวก</td>
+                        </tr>
+                        <tr>
+                            <td data-label="รายการปฏิบัติ">3.1 ครูมีการจัดสภาพแวดล้อมบรรยากาศที่เอื้อต่อการเรียนรู้มีความปลอดภัยและมีความสุข</td>
+                            <td data-label="ปฏิบัติ"><div class="radio-label"><input type="radio" name="q3_1" value="1" required></div></td>
+                            <td data-label="ไม่ปฏิบัติ"><div class="radio-label"><input type="radio" name="q3_1" value="0"></div></td>
+                        </tr>
+                        <tr>
+                            <td data-label="รายการปฏิบัติ">3.2 ครูมีการจัดสภาพแวดล้อมบรรยากาศที่เอื้อต่อการเรียนรู้มีความปลอดภัยและมีความสุข ส่งเสริมให้ผู้เรียนเกิดกระบวนการคิด มีทักษะชีวิตและทักษะการทำงาน</td>
+                            <td data-label="ปฏิบัติ"><div class="radio-label"><input type="radio" name="q3_2" value="1" required></div></td>
+                            <td data-label="ไม่ปฏิบัติ"><div class="radio-label"><input type="radio" name="q3_2" value="0"></div></td>
+                        </tr>
+                        <tr>
+                            <td data-label="รายการปฏิบัติ">3.3 ครูมีการจัดสภาพแวดล้อมบรรยากาศที่เอื้อต่อการเรียนรู้มีความปลอดภัยและมีความสุข ส่งเสริมให้ผู้เรียนเกิดกระบวนการคิด มีทักษะชีวิตและทักษะการทำงานอบรมบ่มนิสัยให้ผู้เรียนมีคุณธรรมจริยธรรม คุณลักษณะอันพึงประสงค์ค่านิยมที่ดีงาม</td>
+                            <td data-label="ปฏิบัติ"><div class="radio-label"><input type="radio" name="q3_3" value="1" required></div></td>
+                            <td data-label="ไม่ปฏิบัติ"><div class="radio-label"><input type="radio" name="q3_3" value="0"></div></td>
+                        </tr>
+                        <tr>
+                            <td data-label="รายการปฏิบัติ">3.4 ครูมีการจัดสภาพแวดล้อมบรรยากาศที่เอื้อต่อการเรียนรู้มีความปลอดภัยและมีความสุข ส่งเสริมให้ผู้เรียนเกิดกระบวนการคิด มีทักษะชีวิตและทักษะการทำงานอบรมบ่มนิสัยให้ผู้เรียนมีคุณธรรมจริยธรรม คุณลักษณะอันพึงประสงค์ค่านิยมที่ดีงามส่งเสริมให้ผู้เรียนมีความมั่นใจ ในการพัฒนาตนเองเต็มตามศักยภาพเกิดแรงบันดาลใจ</td>
+                            <td data-label="ปฏิบัติ"><div class="radio-label"><input type="radio" name="q3_4" value="1" required></div></td>
+                            <td data-label="ไม่ปฏิบัติ"><div class="radio-label"><input type="radio" name="q3_4" value="0"></div></td>
+                        </tr>
+                        <tr>
+                            <td data-label="รายการปฏิบัติ">3.5 ครูมีการจัดสภาพแวดล้อมบรรยากาศที่เอื้อต่อการเรียนรู้มีความปลอดภัยและมีความสุข ส่งเสริมให้ผู้เรียนเกิดกระบวนการคิด มีทักษะชีวิตและทักษะการทำงานอบรมบ่มนิสัยให้ผู้เรียนมีคุณธรรมจริยธรรม คุณลักษณะอันพึงประสงค์ค่านิยมที่ดีงามส่งเสริมให้ผู้เรียนมีความมั่นใจ ในการพัฒนาตนเองเต็มตามศักยภาพเกิดแรงบันดาลใจเป็นแบบอย่างที่ดีด้านการบริหารจัดการชั้นเรียน</td>
+                            <td data-label="ปฏิบัติ"><div class="radio-label"><input type="radio" name="q3_5" value="1" required></div></td>
+                            <td data-label="ไม่ปฏิบัติ"><div class="radio-label"><input type="radio" name="q3_5" value="0"></div></td>
+                        </tr>
+
+                        <tr>
+                            <td colspan="3" style="background-color: var(--light-blue); font-weight: 700; text-align: left;">4. ตรวจสอบ และประเมินผู้เรียนอย่างเป็นระบบ และนำผลมาพัฒนาผู้เรียน</td>
+                        </tr>
+                        <tr>
+                            <td data-label="รายการปฏิบัติ">4.1 รวบรวมข้อมูล วิเคราะห์ สังเคราะห์ จัดทำและใช้สารสนเทศของผู้เรียนถูกต้องและเป็นปัจจุบันในระบบดูแลช่วยเหลือผู้เรียน</td>
+                            <td data-label="ปฏิบัติ"><div class="radio-label"><input type="radio" name="q4_1" value="1" required></div></td>
+                            <td data-label="ไม่ปฏิบัติ"><div class="radio-label"><input type="radio" name="q4_1" value="0"></div></td>
+                        </tr>
+                        <tr>
+                            <td data-label="รายการปฏิบัติ">4.2 รวบรวมข้อมูล วิเคราะห์ สังเคราะห์ จัดทำและใช้สารสนเทศของผู้เรียนถูกต้องและเป็นปัจจุบันในระบบดูแลช่วยเหลือผู้เรียน จัดกิจกรรมเชิงสร้างสรรค์พัฒนาผู้เรียนด้วยวิธีการที่หลากหลาย</td>
+                            <td data-label="ปฏิบัติ"><div class="radio-label"><input type="radio" name="q4_2" value="1" required></div></td>
+                            <td data-label="ไม่ปฏิบัติ"><div class="radio-label"><input type="radio" name="q4_2" value="0"></div></td>
+                        </tr>
+                        <tr>
+                            <td data-label="รายการปฏิบัติ">4.3 รวบรวมข้อมูล วิเคราะห์ สังเคราะห์ จัดทำและใช้สารสนเทศของผู้เรียนถูกต้องและเป็นปัจจุบันในระบบดูแลช่วยเหลือผู้เรียน จัดกิจกรรมเชิงสร้างสรรค์พัฒนาผู้เรียนด้วยวิธีการที่หลากหลาย ส่งเสริมป้องกันและแก้ไขปัญหาผู้เรียนอย่างเป็นระบบ</td>
+                            <td data-label="ปฏิบัติ"><div class="radio-label"><input type="radio" name="q4_3" value="1" required></div></td>
+                            <td data-label="ไม่ปฏิบัติ"><div class="radio-label"><input type="radio" name="q4_3" value="0"></div></td>
+                        </tr>
+                        <tr>
+                            <td data-label="รายการปฏิบัติ">4.4 รวบรวมข้อมูล วิเคราะห์ สังเคราะห์ จัดทำและใช้สารสนเทศของผู้เรียนถูกต้องและเป็นปัจจุบันในระบบดูแลช่วยเหลือผู้เรียน จัดกิจกรรมเชิงสร้างสรรค์พัฒนาผู้เรียนด้วยวิธีการที่หลากหลาย ส่งเสริมป้องกันและแก้ไขปัญหาผู้เรียนอย่างเป็นระบบ นำผลไปประยุกต์ใช้ในการพัฒนาผู้เรียน</td>
+                            <td data-label="ปฏิบัติ"><div class="radio-label"><input type="radio" name="q4_4" value="1" required></div></td>
+                            <td data-label="ไม่ปฏิบัติ"><div class="radio-label"><input type="radio" name="q4_4" value="0"></div></td>
+                        </tr>
+                        <tr>
+                            <td data-label="รายการปฏิบัติ">4.5 รวบรวมข้อมูล วิเคราะห์ สังเคราะห์ จัดทำและใช้สารสนเทศของผู้เรียนถูกต้องและเป็นปัจจุบันในระบบดูแลช่วยเหลือผู้เรียน จัดกิจกรรมเชิงสร้างสรรค์พัฒนาผู้เรียนด้วยวิธีการที่หลากหลาย ส่งเสริมป้องกันและแก้ไขปัญหาผู้เรียนอย่างเป็นระบบ นำผลไปประยุกต์ใช้ในการพัฒนาผู้เรียน ให้คำปรึกษาแก่ครูในสถานศึกษาด้านการจัดทำข้อมูลสารสนเทศ</td>
+                            <td data-label="ปฏิบัติ"><div class="radio-label"><input type="radio" name="q4_5" value="1" required></div></td>
+                            <td data-label="ไม่ปฏิบัติ"><div class="radio-label"><input type="radio" name="q4_5" value="0"></div></td>
+                        </tr>
+
+                        <tr>
+                            <td colspan="3" style="background-color: var(--light-blue); font-weight: 700; text-align: left;">5. การแลกเปลี่ยนเรียนรู้ และให้ข้อมูลสะท้อนกลับเพื่อพัฒนาและปรับปรุงการจัดการเรียนรู้</td>
+                        </tr>
+                        <tr>
+                            <td data-label="รายการปฏิบัติ">5.1 เข้าร่วมแลกเปลี่ยนเรียนรู้ และให้ข้อมูลสะท้อนกลับ เพื่อพัฒนาการจัดการเรียนการสอน</td>
+                            <td data-label="ปฏิบัติ"><div class="radio-label"><input type="radio" name="q5_1" value="1" required></div></td>
+                            <td data-label="ไม่ปฏิบัติ"><div class="radio-label"><input type="radio" name="q5_1" value="0"></div></td>
+                        </tr>
+                        <tr>
+                            <td data-label="รายการปฏิบัติ">5.2 เข้าร่วมแลกเปลี่ยนเรียนรู้ ให้ข้อมูลสะท้อนกลับ นำความรู้ที่ได้มาพัฒนา ปรับปรุงการจัดการเรียนการสอน</td>
+                            <td data-label="ปฏิบัติ"><div class="radio-label"><input type="radio" name="q5_2" value="1" required></div></td>
+                            <td data-label="ไม่ปฏิบัติ"><div class="radio-label"><input type="radio" name="q5_2" value="0"></div></td>
+                        </tr>
+                        <tr>
+                            <td data-label="รายการปฏิบัติ">5.3 เข้าร่วมแลกเปลี่ยนเรียนรู้ ให้ข้อมูลสะท้อนกลับ นำความรู้ที่ได้มาพัฒนา ปรับปรุงการจัดการเรียนการสอน ด้วยกระบวนการวิจัยในชั้นเรียน</td>
+                            <td data-label="ปฏิบัติ"><div class="radio-label"><input type="radio" name="q5_3" value="1" required></div></td>
+                            <td data-label="ไม่ปฏิบัติ"><div class="radio-label"><input type="radio" name="q5_3" value="0"></div></td>
+                        </tr>
+                        <tr>
+                            <td data-label="รายการปฏิบัติ">5.4 เข้าร่วมแลกเปลี่ยนเรียนรู้ ให้ข้อมูลสะท้อนกลับ นำความรู้ที่ได้มาพัฒนา ปรับปรุงการจัดการเรียนการสอน ด้วยกระบวนการวิจัยในชั้นเรียน และได้รับการเผยแพร่ภายในสถานศึกษา</td>
+                            <td data-label="ปฏิบัติ"><div class="radio-label"><input type="radio" name="q5_4" value="1" required></div></td>
+                            <td data-label="ไม่ปฏิบัติ"><div class="radio-label"><input type="radio" name="q5_4" value="0"></div></td>
+                        </tr>
+                        <tr>
+                            <td data-label="รายการปฏิบัติ">5.5 เข้าร่วมแลกเปลี่ยนเรียนรู้ ให้ข้อมูลสะท้อนกลับ นำความรู้ที่ได้มาพัฒนา ปรับปรุงการจัดการเรียนการสอน ด้วยกระบวนการวิจัยในชั้นเรียน และได้รับการเผยแพร่ภายในสถานศึกษา สามารถเป็นแบบอย่างได้</td>
+                            <td data-label="ปฏิบัติ"><div class="radio-label"><input type="radio" name="q5_5" value="1" required></div></td>
+                            <td data-label="ไม่ปฏิบัติ"><div class="radio-label"><input type="radio" name="q5_5" value="0"></div></td>
+                        </tr>
+
+                        <tr>
+                            <td colspan="3" style="background-color: var(--light-blue); font-weight: 700; text-align: left;">6. มีการพัฒนาตนเองและพัฒนาวิชาชีพอย่างต่อเนื่อง</td>
+                        </tr>
+                        <tr>
+                            <td data-label="รายการปฏิบัติ">6.1 พัฒนาตนเองและพัฒนาวิชาชีพ ด้วยการศึกษาค้นคว้าจากแหล่งเรียนรู้ต่าง ๆ</td>
+                            <td data-label="ปฏิบัติ"><div class="radio-label"><input type="radio" name="q6_1" value="1" required></div></td>
+                            <td data-label="ไม่ปฏิบัติ"><div class="radio-label"><input type="radio" name="q6_1" value="0"></div></td>
+                        </tr>
+                        <tr>
+                            <td data-label="รายการปฏิบัติ">6.2 พัฒนาตนเองและพัฒนาวิชาชีพ ด้วยการศึกษาค้นคว้าจากแหล่งเรียนรู้ต่าง ๆ ภายในหรือภายนอกสถานศึกษา 1 เรื่องขึ้นไป</td>
+                            <td data-label="ปฏิบัติ"><div class="radio-label"><input type="radio" name="q6_2" value="1" required></div></td>
+                            <td data-label="ไม่ปฏิบัติ"><div class="radio-label"><input type="radio" name="q6_2" value="0"></div></td>
+                        </tr>
+                        <tr>
+                            <td data-label="รายการปฏิบัติ">6.3 พัฒนาตนเองและพัฒนาวิชาชีพ ด้วยการศึกษาค้นคว้าจากแหล่งเรียนรู้ต่าง ๆ ภายในหรือภายนอกสถานศึกษา 2 เรื่องขึ้นไป</td>
+                            <td data-label="ปฏิบัติ"><div class="radio-label"><input type="radio" name="q6_3" value="1" required></div></td>
+                            <td data-label="ไม่ปฏิบัติ"><div class="radio-label"><input type="radio" name="q6_3" value="0"></div></td>
+                        </tr>
+                        <tr>
+                            <td data-label="รายการปฏิบัติ">6.4 พัฒนาตนเองและพัฒนาวิชาชีพ ด้วยการศึกษาค้นคว้าจากแหล่งเรียนรู้ต่าง ๆภายในหรือภายนอกสถานศึกษา 2 เรื่องขึ้นไป และนำความรู้ที่ได้จากการศึกษาค้นคว้ามาพัฒนาตนเองและพัฒนางาน</td>
+                            <td data-label="ปฏิบัติ"><div class="radio-label"><input type="radio" name="q6_4" value="1" required></div></td>
+                            <td data-label="ไม่ปฏิบัติ"><div class="radio-label"><input type="radio" name="q6_4" value="0"></div></td>
+                        </tr>
+                        <tr>
+                            <td data-label="รายการปฏิบัติ">6.5 พัฒนาตนเองและพัฒนาวิชาชีพ ด้วยการศึกษาค้นคว้าจากแหล่งเรียนรู้ต่าง ๆ ภายในหรือภายนอกสถานศึกษา 2 เรื่องขึ้นไป และนำความรู้ที่ได้จากการศึกษาค้นคว้ามาพัฒนาตนเองและพัฒนางาน สามารถถ่ายทอดความรู้ให้กับผู้อื่นได้</td>
+                            <td data-label="ปฏิบัติ"><div class="radio-label"><input type="radio" name="q6_5" value="1" required></div></td>
+                            <td data-label="ไม่ปฏิบัติ"><div class="radio-label"><input type="radio" name="q6_5" value="0"></div></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="button-group">
+                    <button type="button" class="secondary" onclick="prevSection(2)">ย้อนกลับ</button>
+                    <button type="submit" class="primary" id="submitBtn">บันทึกข้อมูล</button>
+                </div>
+            </div>
+        </form>
+        <div id="submissionStatus" class="submission-status" style="display: none;"></div>
+    </div>
+
+    <script>
+        const form = document.getElementById('assessmentForm');
+        const sections = Array.from(document.querySelectorAll('.form-section'));
+        const progressBar = document.getElementById('progressBar');
+        const submissionStatus = document.getElementById('submissionStatus');
+        const submitBtn = document.getElementById('submitBtn');
+
+        let currentSectionIndex = 0;
+        const totalSections = sections.length;
+
+        function updateProgressBar() {
+            const progress = ((currentSectionIndex + 1) / totalSections) * 100;
+            progressBar.style.width = `${progress}%`;
+            progressBar.textContent = `${Math.round(progress)}%`;
+        }
+
+        function showSection(index) {
+            sections.forEach((section, i) => {
+                section.classList.toggle('active', i === index);
+            });
+            currentSectionIndex = index;
+            updateProgressBar();
+        }
+
+        function validateSection(sectionIndex) {
+            let isValid = true;
+            const currentSection = sections[sectionIndex - 1];
+            const requiredInputs = currentSection.querySelectorAll('[required]');
+
+            requiredInputs.forEach(input => {
+                const errorElement = document.getElementById('error' + input.id.charAt(0).toUpperCase() + input.id.slice(1));
+                if (input.type === 'radio') {
+                    const radioGroupName = input.name;
+                    const radios = document.querySelectorAll(`input[name="${radioGroupName}"]`);
+                    const isChecked = Array.from(radios).some(radio => radio.checked);
+                    if (!isChecked) {
+                        isValid = false;
+                        // For radio buttons, we might not have individual error messages, or we can show a generic one
+                        // For this example, let's assume the default `required` browser validation handles it
+                        // or we could add a generic error message for the whole table if needed.
+                    }
+                } else if (input.tagName === 'SELECT' && input.value === '') {
+                    isValid = false;
+                    if (errorElement) errorElement.style.display = 'block';
+                } else if (input.type === 'number' && input.value === '') {
+                     isValid = false;
+                     if (errorElement) errorElement.style.display = 'block';
+                }
+                else if (input.type === 'number' && input.validity && input.validity.badInput) {
+                    isValid = false;
+                    if (errorElement) errorElement.style.display = 'block';
+                }
+                else if (input.value.trim() === '') {
+                    isValid = false;
+                    if (errorElement) errorElement.style.display = 'block';
+                } else {
+                    if (errorElement) errorElement.style.display = 'none';
+                }
+            });
+
+            // Specific validation for age inputs
+            if (sectionIndex === 1) {
+                const serviceYears = document.getElementById('serviceYears');
+                const serviceMonths = document.getElementById('serviceMonths');
+                const errorServiceTime = document.getElementById('errorServiceTime');
+
+                if (serviceYears.value === '' || serviceMonths.value === '') {
+                    isValid = false;
+                    errorServiceTime.style.display = 'block';
+                } else {
+                    errorServiceTime.style.display = 'none';
+                }
+            }
+
+            return isValid;
+        }
+
+        function nextSection(current) {
+            if (validateSection(current)) {
+                showSection(currentSectionIndex + 1);
+            } else {
+                alert('กรุณากรอกข้อมูลให้ครบถ้วนและถูกต้อง');
+            }
+        }
+
+        function prevSection(current) {
+            showSection(currentSectionIndex - 1);
+        }
+
+        form.addEventListener('submit', async function(e) {
+            e.preventDefault();
+
+            if (!validateSection(totalSections)) {
+                alert('กรุณากรอกข้อมูลในส่วนแบบประเมินให้ครบถ้วน');
+                return;
+            }
+
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'กำลังบันทึก...';
+            submissionStatus.style.display = 'block';
+            submissionStatus.style.color = 'var(--primary-blue)';
+            submissionStatus.textContent = 'กำลังบันทึกข้อมูล...';
+
+            const formData = new FormData(form);
+            const data = {};
+            formData.forEach((value, key) => {
+                data[key] = value;
+            });
+
+            // Specific handling for serviceYears and serviceMonths
+            data['อายุราชการ'] = `${data['อายุราชการ_ปี']} ปี ${data['อายุราชการ_เดือน']} เดือน`;
+            delete data['อายุราชการ_ปี'];
+            delete data['อายุราชการ_เดือน'];
+
+            console.log("Data to send:", data);
+
+            try {
+                const response = await fetch('https://script.google.com/macros/s/AKfycbzN90Gg7iZDTaCH0VNcD6Hv0WD7XI7v8ow_pwZpDCn0JVvD4XvlSvJKglNtnyWkw/exec', {
+                    method: 'POST',
+                    mode: 'no-cors', // Required for Google Apps Script web app
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: new URLSearchParams(data).toString()
+                });
+
+                // Google Apps Script deployments (web apps) typically return a redirect or empty response with no-cors
+                // So we can't directly check response.ok or parse JSON.
+                // We assume success if no error is thrown by fetch.
+
+                submissionStatus.textContent = 'บันทึกเรียบร้อยแล้ว!';
+                submissionStatus.style.color = '#4CAF50'; // Green for success
+                form.reset(); // Clear the form
+                showSection(0); // Go back to the first section
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'บันทึกข้อมูล';
+
+            } catch (error) {
+                console.error('Error submitting form:', error);
+                submissionStatus.textContent = 'เกิดข้อผิดพลาดในการบันทึกข้อมูล: ' + error.message;
+                submissionStatus.style.color = '#D32F2F'; // Red for error
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'บันทึกข้อมูล';
+            }
+        });
+
+        // Initialize first section and progress bar
+        showSection(0);
+
+        // Add blur event listeners to inputs in section 1 to trigger validation on user interaction
+        document.querySelectorAll('#section1 input, #section1 select').forEach(input => {
+            input.addEventListener('blur', () => {
+                const errorElement = document.getElementById('error' + input.id.charAt(0).toUpperCase() + input.id.slice(1));
+                if (input.tagName === 'SELECT' && input.value === '') {
+                    if (errorElement) errorElement.style.display = 'block';
+                } else if (input.type === 'number' && input.value === '') {
+                    if (errorElement) errorElement.style.display = 'block';
+                } else if (input.type === 'number' && input.validity && input.validity.badInput) {
+                    if (errorElement) errorElement.style.display = 'block';
+                } else if (input.value.trim() === '') {
+                    if (errorElement) errorElement.style.display = 'block';
+                } else {
+                    if (errorElement) errorElement.style.display = 'none';
+                }
+            });
+        });
+    </script>
+</body>
+</html>
